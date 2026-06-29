@@ -6,6 +6,8 @@ Type `/btw <question>` and the plugin spawns a child session in the background. 
 
 No other plugins required. Works with any OpenCode setup.
 
+Published on npm as [`btw-opencode-plugin`](https://www.npmjs.com/package/btw-opencode-plugin).
+
 ## How it works
 
 ```
@@ -35,22 +37,22 @@ Two self-contained plugins in one package:
 ## Install
 
 ```bash
-git clone https://github.com/pabloXDXDXD/btw-opencode.git
-cd btw-opencode
-npm install
-npm run build
+npm install btw-opencode-plugin
 ```
 
 ## Configure
 
-Add both plugins to your `opencode.json`:
+Add both plugins to your OpenCode config:
 
 ```json
+// opencode.json — server plugin (command hook)
 {
-  "plugin": [
-    "./path/to/btw-opencode/dist/server.js",
-    "./path/to/btw-opencode/dist/tui.js"
-  ]
+  "plugin": ["btw-opencode-plugin"]
+}
+
+// tui.json — TUI plugin (/btw-list + sidebar)
+{
+  "plugin": ["btw-opencode-plugin/tui"]
 }
 ```
 

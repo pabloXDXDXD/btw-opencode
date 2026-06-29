@@ -1,7 +1,7 @@
 {
-  "name": "btw-opencode",
+  "name": "btw-opencode-plugin",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "OpenCode /btw plugin — parallel questions without interrupting your main session",
   "keywords": ["opencode", "plugin", "btw", "parallel", "question"],
   "license": "MIT",
