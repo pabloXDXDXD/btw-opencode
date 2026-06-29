@@ -1,14 +1,38 @@
 # btw-opencode
 
-**OpenCode plugin** — pregunta en paralelo sin interrumpir tu sesión principal.
+**OpenCode plugin** — ask parallel questions without interrupting your main session.
 
-Escribí `/btw <pregunta>` y el plugin:
-1. Crea una sesión hija (background, no bloquea el input)
-2. El bot responde en esa sesión
-3. Abrí `/btw-list` para ver todas las sesiones activas
-4. Click → ves la respuesta completa en la sesión hija
+Type `/btw <question>` and the plugin spawns a child session in the background. Your main session keeps running. Check results later with `/btw-list` or open the child session from the sessions panel.
 
-## Instalación
+No other plugins required. Works with any OpenCode setup.
+
+## How it works
+
+```
+┌─ TUI ──────────────────────────┐    ┌─ Server ──────────────────┐
+│                                │    │                           │
+│  /btw react hooks vs classes   │───>│  command.execute.before    │
+│                                │    │  - create child session   │
+│                                │    │  - promptAsync (no block) │
+│  /btw-list                     │    │  - throw (cancel cmd)     │
+│  ┌──────────────────────────┐  │    └───────────────────────────┘
+│  │ ⏳ react hooks vs...     │  │
+│  │ ✅ composition vs...     │  │
+│  └───────── click ──────────┘──┘
+│                                │
+│         ↓ opens child session with full response
+```
+
+Two self-contained plugins in one package:
+
+| Plugin | Layer | Job |
+|--------|-------|-----|
+| `server.js` | Server (hooks) | Intercepts `/btw`, creates child session, fires promptAsync (non-blocking), cancels the command on the main session |
+| `tui.js` | TUI (UI) | Tracks BTW sessions via event bus, persists to KV, registers `/btw-list` slash command, attempts sidebar footer slot |
+
+**The sidebar slot** may not render depending on your SolidJS version — it uses `require("solid-js").h()` which isn't always available. `/btw-list` always works regardless. The plugin does not depend on any other plugin (not even subagent-statusline).
+
+## Install
 
 ```bash
 git clone https://github.com/pabloXDXDXD/btw-opencode.git
@@ -17,9 +41,9 @@ npm install
 npm run build
 ```
 
-## Configuración
+## Configure
 
-Agregá ambos plugins a tu `opencode.json`:
+Add both plugins to your `opencode.json`:
 
 ```json
 {
@@ -30,45 +54,40 @@ Agregá ambos plugins a tu `opencode.json`:
 }
 ```
 
-Y el comando (para autocomplete) a `.opencode/commands/btw.md` — copiá el archivo de `commands/btw.md` incluido en el package.
+Copy `commands/btw.md` to your project's `.opencode/commands/` for autocomplete support.
 
-## Cómo funciona
+## Commands
 
-```
-┌─ TUI ──────────────────────┐    ┌─ Server ─────────────────┐
-│                            │    │                          │
-│  /btw qué edad tiene       │───>│  command.execute.before   │
-│  Messi?                    │    │  - crea sesión hija       │
-│                            │    │  - promptAsync (no block) │
-│  ┌─ BTW ───────────────┐   │    │  - throw (cancela cmd)   │
-│  │ ✅ qué edad tiene    │   │    └──────────────────────────┘
-│  │    Messi?            │   │
-│  └──────────────────────┘   │
-│                            │
-│  /btw-list                 │───> DialogSelect → navega a
-│                            │     la sesión hija
-└────────────────────────────┘
-```
-
-- **Server plugin**: intercepta `/btw`, crea sesión hija, dispara la pregunta sin esperar
-- **TUI plugin**: escucha el event bus, guarda sesiones BTW en KV, muestra `/btw-list` y sidebar slot
-- **Resultados**: persisten en `api.kv`, sobreviven a recargas del plugin
-
-## Comandos
-
-| Comando | Descripción |
+| Command | Description |
 |---------|-------------|
-| `/btw <pregunta>` | Pregunta en paralelo |
-| `/btw-list` | Muestra sesiones BTW activas |
+| `/btw <question>` | Ask in a child session, non-blocking |
+| `/btw-list` | Open a dialog with all active BTW sessions |
 
-## Desarrollo
+Select a session from the dialog to navigate to it and read the full response.
+
+## Project structure
+
+```
+btw-opencode/
+├── src/
+│   ├── server.ts          ← server plugin source
+│   └── tui.ts             ← TUI plugin source
+├── commands/
+│   └── btw.md             ← command file for autocomplete
+├── dist/                  ← compiled output
+│   ├── server.js
+│   └── tui.js
+├── opencode.example.json
+└── package.json
+```
+
+## Build
 
 ```bash
-npm install
 npm run build
 ```
 
-Los plugins compilados quedan en `dist/`.
+Output goes to `dist/`.
 
 ## License
 
