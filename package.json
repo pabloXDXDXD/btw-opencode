@@ -1,7 +1,7 @@
 {
-  "name": "@gentle-ai/btw-plugin",
+  "name": "btw-opencode",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "description": "OpenCode /btw plugin — parallel questions without interrupting your main session",
   "keywords": ["opencode", "plugin", "btw", "parallel", "question"],
   "license": "MIT",
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gentleman-Programming/gentle-ai-btw-plugin"
+    "url": "https://github.com/pabloXDXDXD/btw-opencode.git"
   }
 }

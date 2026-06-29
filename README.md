@@ -1,4 +1,4 @@
-# @gentle-ai/btw-plugin
+# btw-opencode
 
 **OpenCode plugin** — pregunta en paralelo sin interrumpir tu sesión principal.
 
@@ -11,11 +11,11 @@ Escribí `/btw <pregunta>` y el plugin:
 ## Instalación
 
 ```bash
-# Desde npm
-npm install @gentle-ai/btw-plugin
+git clone https://github.com/pabloXDXDXD/btw-opencode.git
+cd btw-opencode
+npm install
+npm run build
 ```
-
-O cloná el repo y referenciá los paths localmente.
 
 ## Configuración
 
@@ -24,8 +24,8 @@ Agregá ambos plugins a tu `opencode.json`:
 ```json
 {
   "plugin": [
-    "@gentle-ai/btw-plugin",
-    "@gentle-ai/btw-plugin/tui"
+    "./path/to/btw-opencode/dist/server.js",
+    "./path/to/btw-opencode/dist/tui.js"
   ]
 }
 ```
