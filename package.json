@@ -1,0 +1,30 @@
+{
+  "name": "@gentle-ai/btw-plugin",
+  "version": "1.0.0",
+  "private": false,
+  "description": "OpenCode /btw plugin — parallel questions without interrupting your main session",
+  "keywords": ["opencode", "plugin", "btw", "parallel", "question"],
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/server.js",
+  "exports": {
+    ".": "./dist/server.js",
+    "./tui": "./dist/tui.js"
+  },
+  "files": ["dist", "commands", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.17.0"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.17.11",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gentleman-Programming/gentle-ai-btw-plugin"
+  }
+}
