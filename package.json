@@ -17,6 +17,7 @@
   "files": ["dist", "commands", "README.md"],
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
