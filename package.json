@@ -1,9 +1,9 @@
 {
-  "name": "@pabloXDXDXD/btw-opencode-plugin",
+  "name": "@pabloxdxdxd/btw-opencode-plugin",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "OpenCode /btw plugin — parallel questions without interrupting your main session",
   "keywords": ["opencode", "plugin", "btw", "parallel", "question"],
